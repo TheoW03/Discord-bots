@@ -1,0 +1,11 @@
+1. .math: this does math equations just add spaces in operators like this
+   x + y 
+   x ^ x 
+   it also follows pemdas 
+
+2. .mim: this Will mimic any message like this
+   input:  discord is the best
+   output: DiScOrD iS tHe BeSt 
+
+coded by TheoW#4769
+have a good day :smile: 
