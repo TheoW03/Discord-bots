@@ -8,8 +8,8 @@ client.on("message", message => {
     }
     
     //.mim command
-    if (message.content.startsWith(">mimic")) {
-        var m = message.content
+    if (message.content.startsWith(".mimic")) {
+        var m = message.content;
         var t = "";
         for (var i = 0; i < m.length; i++) {
             var a = m.charAt(i);
