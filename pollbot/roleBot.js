@@ -187,9 +187,7 @@ client.on("message", message => {
            .addField(theTitle,t2);
         
         
-        // fs.writeFile('C:\\Users\\jduda\\my-app\\src\\Tetx.txt', t+"\n"+temp, (err) => {
-        //     if (err) throw err;
-        // })
+        
         message.channel.send({embeds: [embed]});
 
     }
