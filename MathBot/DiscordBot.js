@@ -164,4 +164,4 @@ client.on("message", message => {
 
 })
 require('dotenv').config()
-client.login(process.env.TOKENMATH);
+client.login(process.env.MATHBOT);
