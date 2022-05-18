@@ -25,4 +25,4 @@ client.on("message", message => {
 })
 
 require('dotenv').config()
-client.login(process.env.TOKENMIM)
+client.login(process.env.MIM)
