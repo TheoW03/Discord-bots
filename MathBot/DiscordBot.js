@@ -97,7 +97,7 @@ function solve(infix) {
  * .mim
  * .math
  */
-client.on("message", message => {
+client.on("messageCreate", message => {
     if (message.author == client.user) {
         return;
     }
@@ -115,14 +115,14 @@ client.on("message", message => {
     //.help command
     if (message.content.startsWith(".help")) {
         try {
-            const data = fs.readFileSync('MathBot/.help.txt', 'utf8')
+            const data = fs.readFileSync('.help.txt', 'utf8')
             var embed = new MessageEmbed()
                 .setTitle("help")
                 .setDescription("this is a list of commands")
                 .addField("commands", ">>> " + data)
             message.channel.send({ embeds: [embed] });
         } catch (err) {
-            message.channel.send("this doesnt work");
+            message.channel.send("this doesnt work"+err);
         }
     }
     //.math command
