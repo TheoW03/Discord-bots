@@ -34,6 +34,7 @@ var arr = []
 var i2 = 0;
 var t = ""
 var closePoll=false
+
 client.on('interactionCreate', interaction => {
     let me = "";
     if (!interaction.isButton()) return;

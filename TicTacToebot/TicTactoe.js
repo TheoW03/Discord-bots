@@ -216,15 +216,19 @@ var board = [
 ];
 var boardControls = [[], [], []]
 
-
+client.on("ready", () => {
+    client.user.setActivity(".tictactoe player1 vs player2", { type: "PLAYING" });
+});
 client.on("message", message => {
     if (message.author == client.user) {
         return;
-
+    }
+    if(message.content.startsWith(".ping")){
+        message.channel.send("pong");
     }
     if (message.content.startsWith(".tictactoe")) {
         let t = message.content.substring(10);
-        let players = t.split("and");
+        let players = t.split("vs");
         gameOB = new gameBoard(board, players[0], players[1])
         var embed = new MessageEmbed()
             .setTitle("TITLE")
