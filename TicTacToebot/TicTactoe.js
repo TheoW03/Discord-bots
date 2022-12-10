@@ -44,8 +44,8 @@ class gameBoard {
         let i2 = 2;
         let checkDiangol1 = "";
         let checkDiangol2 = "";
-    
-        
+
+
         for (let r = 0; r < this.Board.length; r++) {
             checkVerticle1 += this.Board[r][0];
             checkVerticle2 += this.Board[r][1];
@@ -57,9 +57,12 @@ class gameBoard {
                 checkHorzontal += this.Board[r][c];
             }
             if (checkHorzontal == ":regional_indicator_x::regional_indicator_x::regional_indicator_x:") {
+                gameInSess = false;
                 return this.player1 + " wins";
             }
             if (checkHorzontal == ":regional_indicator_o::regional_indicator_o::regional_indicator_o:") {
+                gameInSess = false;
+
                 return this.player2 + " wins";
             }
             checkHorzontal = "";
@@ -68,20 +71,30 @@ class gameBoard {
         }
         if (!checkVerticle1.indexOf(":white_medium_square:") || !checkVerticle2.indexOf(":white_medium_square:") || !checkVerticle1.indexOf(":white_medium_square:")) {
             if (checkVerticle1 == ":regional_indicator_x::regional_indicator_x::regional_indicator_x:") {
+                gameInSess = false;
+
                 return this.player1 + " wins";
             }
             if (checkVerticle2 == ":regional_indicator_x::regional_indicator_x::regional_indicator_x:") {
+                gameInSess = false;
+
                 return this.player1 + " wins";
             }
             if (checkVerticle3 == ":regional_indicator_x::regional_indicator_x::regional_indicator_x:") {
+                gameInSess = false;
+
                 return this.player1 + " wins";
             }
         }
         if (!checkVerticle1.indexOf(":white_medium_square:") || !checkVerticle2.indexOf(":white_medium_square:") || !checkVerticle1.indexOf(":white_medium_square:")) {
             if (checkVerticle1 == ":regional_indicator_o::regional_indicator_o::regional_indicator_o:") {
+                gameInSess = false;
+
                 return this.player2 + " wins";
             }
             if (checkVerticle2 == ":regional_indicator_o::regional_indicator_o::regional_indicator_o:") {
+                gameInSess = false;
+
                 return this.player2 + " wins";
             }
             if (checkVerticle3 == ":regional_indicator_o::regional_indicator_o::regional_indicator_o:") {
@@ -90,18 +103,26 @@ class gameBoard {
 
         }
         if (checkDiangol1 == ":regional_indicator_x::regional_indicator_x::regional_indicator_x:") {
+            gameInSess = false;
+
             return this.player1 + " wins";
         }
         if (checkDiangol1 == ":regional_indicator_o::regional_indicator_o::regional_indicator_o:") {
+            gameInSess = false;
+
             return this.player2 + " wins";
         }
         if (checkDiangol2 == ":regional_indicator_x::regional_indicator_x::regional_indicator_x:") {
+            gameInSess = false;
+
             return this.player1 + " wins";
         }
         if (checkDiangol2 == ":regional_indicator_o::regional_indicator_o::regional_indicator_o:") {
+            gameInSess = false;
+
             return this.player2 + " wins";
         }
-        
+
         return "";
 
     }
@@ -214,19 +235,56 @@ var board = [
     [":white_medium_square:", ":white_medium_square:", ":white_medium_square:"],
     [":white_medium_square:", ":white_medium_square:", ":white_medium_square:"]
 ];
+var gameInSess = false;
 var boardControls = [[], [], []]
 
 client.on("ready", () => {
-    client.user.setActivity(".tictactoe player1 vs player2", { type: "PLAYING" });
+    client.user.setActivity(".help for commands", { type: "PLAYING" });
 });
 client.on("message", message => {
     if (message.author == client.user) {
         return;
     }
-    if(message.content.startsWith(".ping")){
+    if (message.content.startsWith(".ping")) {
+        if (message.author.id != 508000673946927136) {
+            return;
+        }
         message.channel.send("pong");
     }
+    if (message.content.startsWith(".pong")) {
+        let a = Math.random() * 4;
+        if (a > 2) {
+            message.channel.send("pong");
+        } else if (a == 3) {
+            message.channel.send("ping");
+        } else {
+            message.channel.send("ping or pong :smirk:");
+        }
+        // message.channel.reply("");
+    }
+    if (message.content.startsWith(".help")) {
+        const fs = require('fs');
+        fs.readFile('help.txt', 'utf8', (err, data) => {
+            if (err) {
+                message.channel.send(err);
+                return;
+            }
+            var embed = new MessageEmbed()
+                .setTitle("help")
+                .addField("help", data)
+            message.channel.send({ embeds: [embed] });
+        });
+    }
     if (message.content.startsWith(".tictactoe")) {
+        // if (gameInSess) {
+        //     return;
+        // }
+        for (let r = 0; r < board.length; r++) {
+            for (let c = 0; c < board[r].length; c++) {
+                board[r][c] = ":white_medium_square:";
+            }
+        }
+
         let t = message.content.substring(10);
         let players = t.split("vs");
         gameOB = new gameBoard(board, players[0], players[1])
@@ -250,6 +308,7 @@ client.on("message", message => {
                     .setStyle('PRIMARY'),
             );
         }
+        gameInSess = true;
         message.channel.send({ embeds: [embed], components: [row] });
     }
 
